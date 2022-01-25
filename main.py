@@ -90,13 +90,9 @@ df_fatal = df_fatal.drop(index=4063)
 perlocal = df_fatal.groupby('Country')[['Fatal', 'NOT Fatal', 'Boating', 'Invalid']].sum()
 perano = df_fatal.groupby('Year')[['Fatal', 'NOT Fatal', 'Boating', 'Invalid']].sum()
 
-print(perano)
-
-# df_fatal.info()
+FIM = df_fatal.to_csv('./SharkFatal.csv', index=False, sep='\t')
 
 
-
-# print(df_fatal.loc[df_fatal['Type'] == 'Invalid', :])
 
 
 
