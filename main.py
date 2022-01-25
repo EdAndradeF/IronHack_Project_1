@@ -4,14 +4,6 @@ import re
 from pandas_profiling import ProfileReport
 
 
-def limp_year(row):
-    date = row['Date']
-    if row['Year'] != row['Year']:
-        return date[-4:]
-    else:
-        return row['Year']
-
-
 def limp_fatal(row):
 
     '''recebe as linhas e baseada dos dados da colunas:
@@ -40,7 +32,7 @@ df = pd.read_csv('attacks.csv', sep=',', encoding='ANSI')
 
 pd.set_option('display.max_columns', None)
 # limpando colunas inuteis (nulas e com dados repetidos de outras colunas)
-df_fatal = df.loc[:, ['Case Number', 'Date', 'Year', 'Type',
+df_fatal = df.loc[:, ['Date', 'Year', 'Type',
                       'Country', 'Activity', 'Injury', 'Fatal (Y/N)']]
 # limpando linhas nulas
 linenan = df_fatal.loc[df_fatal.isnull().all(axis=1)].index
@@ -70,8 +62,40 @@ df_fatal.loc[:, 'Year'] = df_fatal.loc[:, 'Year'].astype(int)
 
 
 
+# ['Boating', 'Unprovoked', 'Invalid', 'Provoked',
+# 'Questionable', 'Sea Disaster', nan, 'Boat', 'Boatomg']
+df_fatal.loc[(df_fatal['Type'] == 'Boat') | (df_fatal['Type'] == 'Boatomg'), 'Type'] = 'Boating'
+df_fatal.loc[df_fatal.loc[:, 'Type'].isna(), 'Type'] = 'Questionable'
 
-print(df_fatal)
+# excluindo mais algumas linhas sem dados relevantes
+df_fatal.loc[df_fatal.loc[:, 'Injury'] == 'NaN', 'Injury'] = np.nan
+df_fatal = df_fatal.loc[df_fatal['Injury'] == df_fatal['Injury'], :]
+
+
+ataques = (df_fatal['Type'] == 'Provoked') | (df_fatal['Type'] == 'Unprovoked')
+df_fatal.loc[(df_fatal['Fatal'] == 0) & ataques, 'NOT Fatal'] = 1
+df_fatal.loc[df_fatal['NOT Fatal'].isna(), 'NOT Fatal'] = 0
+df_fatal['NOT Fatal'] = df_fatal['NOT Fatal'].astype(int)
+
+mortsematk = (df_fatal['Fatal'] == 1) & (df_fatal['Type'] == 'Invalid')
+df_fatal.loc[mortsematk, 'Fatal'] = 0
+df_fatal.loc[:,'Fatal'] = df_fatal['Fatal'].astype(int)
+
+inva_boat = pd.get_dummies(df_fatal['Type']).iloc[:, :2]
+
+df_fatal = pd.concat([df_fatal, inva_boat], axis=1, )
+df_fatal = df_fatal.drop(columns='Date').reset_index()
+df_fatal = df_fatal.drop(index=4063)
+
+perlocal = df_fatal.groupby('Country')[['Fatal', 'NOT Fatal', 'Boating', 'Invalid']].sum()
+perano = df_fatal.groupby('Year')[['Fatal', 'NOT Fatal', 'Boating', 'Invalid']].sum()
+
+print(perano)
+
+# df_fatal.info()
+
+
+
 # print(df_fatal.loc[df_fatal['Type'] == 'Invalid', :])
 
 
