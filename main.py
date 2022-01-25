@@ -1,6 +1,15 @@
 import numpy as np
 import pandas as pd
 import re
+from pandas_profiling import ProfileReport
+
+
+def limp_year(row):
+    date = row['Date']
+    if row['Year'] != row['Year']:
+        return date[-4:]
+    else:
+        return row['Year']
 
 
 def limp_fatal(row):
@@ -27,37 +36,46 @@ def limp_fatal(row):
 
 
 
-
 df = pd.read_csv('attacks.csv', sep=',', encoding='ANSI')
 
 pd.set_option('display.max_columns', None)
 # limpando colunas inuteis (nulas e com dados repetidos de outras colunas)
-df_notna = df.drop(columns=['Unnamed: 23',
-                            'Unnamed: 22',
-                            'Case Number',
-                            'Case Number.1',
-                            'Case Number.2',
-                            'href formula',
-                            'href',
-                            'pdf'])
+df_fatal = df.loc[:, ['Case Number', 'Date', 'Year', 'Type',
+                      'Country', 'Activity', 'Injury', 'Fatal (Y/N)']]
 # limpando linhas nulas
-linenan = df_notna.loc[df_notna.isnull().all(axis=1)].index
-df_notna = df_notna.drop(index=linenan)
+linenan = df_fatal.loc[df_fatal.isnull().all(axis=1)].index
+df_fatal = df_fatal.drop(index=linenan)
 
-# todo limpando a coluna 'Fatal (Y/N))' e renomeando para 'Fatal'
-# todo informacoes ausentes podem estar na coluna 'Injury'
-
-df_notna = df_notna.rename(columns={'Fatal (Y/N)': 'Fatal'})
+# limpando a coluna 'Fatal (Y/N))' e renomeando para 'Fatal'
+# informacoes ausentes podem estar na coluna 'Injury'
+df_fatal = df_fatal.rename(columns={'Fatal (Y/N)': 'Fatal'})
 
 # dados na coluna Fatal ['N', 'Y', nan, 'M', 'UNKNOWN', '2017', ' N', 'N ', 'y']
 # padronizando a coluna Injury para rodar na funcao limp_fatal(), substituindo nulos po string
-df_notna.loc[df_notna.loc[:, 'Injury'].isna(), 'Injury'] = 'NaN'
-df_notna.loc[:, 'Fatal'] = df_notna.loc[:].apply(limp_fatal, axis=1)
+df_fatal.loc[df_fatal.loc[:, 'Injury'].isna(), 'Injury'] = 'NaN'
+df_fatal.loc[:, 'Fatal'] = df_fatal.loc[:].apply(limp_fatal, axis=1)
 #serie fatal limpa
-ind_fatal = df_notna['Fatal']
-df.head(10)
+
+# tirando os espacos e caracteres especiais dos nomes de paises
+countrys = lambda x : re.sub('[^\w /]', '', x).strip() if isinstance(x, str) else np.nan
+df_fatal.loc[:, 'Country'] = df_fatal.loc[:, 'Country'].apply(countrys)
+
+
+# Faxina nos Anos
+ano = df_fatal.loc[:, 'Date'].str.extract('(\d{4})')
+df_fatal.loc[:, 'Year' ] = ano[0].astype(float)
+dropano = df_fatal['Year'] >= 1950
+df_fatal = df_fatal[dropano]
+df_fatal.loc[:, 'Year'] = df_fatal.loc[:, 'Year'].astype(int)
 
 
 
-print(df_notna)
+
+print(df_fatal)
+# print(df_fatal.loc[df_fatal['Type'] == 'Invalid', :])
+
+
+
+
+
 
