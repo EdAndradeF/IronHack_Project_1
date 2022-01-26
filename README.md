@@ -12,9 +12,13 @@
 
 ## A Limpeza
 
-    Com mais de 65% das linhas, quase completamente,  vazias, o grande volume do DataFrame inicial foi reduzido, de quase 26 mil linhas para pouco mais de 6 mil.
-    Colunas foram excluidas para que ficassem apenas as que continham informações relativas as fatalizações realizadas por esses grande assassinos.
-    Depois de trabalhadas, para obter informações faltantes e/ou mal registradas, ficamos com os casos de 1950 a 2018, um total de 4542 casos. Entre eles há avistamentos, ataque, provocações e incidentes que envolve tubarões e humanos.
+    Com mais de 65% das linhas, quase completamente,  vazias, o grande volume do DataFrame
+    inicial foi reduzido, de quase 26 mil linhas para pouco mais de 6 mil.
+    Colunas foram excluidas para que ficassem apenas as que continham informações relativas 
+    as fatalizações realizadas por esses grande assassinos.
+    Depois de trabalhadas, para obter informações faltantes e/ou mal registradas, ficamos com 
+    os casos de 1950 a 2018, um total de 4542 casos. Entre eles há avistamentos, ataque, 
+    provocações e incidentes que envolve tubarões e humanos.
 
 ## Os ATAQUES
 
@@ -64,10 +68,16 @@ Total = 3.389
 
 
 
-​									*"No mundo são registrados em média 90 ataques por ano, sendo 12 fatais. Contudo, o 						potencial de 		perigo para o ser humano está muitas vezes relacionado com o habitat do 						tubarão. Nesse sentido, a 		maioria das espécies só costuma atacar ao sentir que seu 						território foi invadido ou quando estão em 		procura de alimento e há um erro de 						identificação da presa. Entretanto, **o ser humano não é uma 		presa apetitosa** para 						essas espécies, caso contrário, quase não haveriam praias seguras ao redor 		do mundo e 						os ataques seriam mais numerosos.*
+​									* O potencial de perigo para o ser humano está muitas vezes relacionado com o habitat do tubarão. Nesse sentido, a maioria das espécies só costuma atacar ao sentir que seu território foi invadido ou quando estão em rocura de    alimento e há um erro de identificação da presa. Entretanto, **o ser humano não é uma presa apetitosa** para essas espécies, caso contrário, quase não haveriam praias seguras ao redor do mundo e os ataques seriam mais numerosos.*
 
-​									*Existem diversos fatores que contribuem para a ocorrência dos ataques, como: o 						crescimento populacional humano, o tempo que passamos dentro d’água, aumento na 						abundância de espécies de tubarões, mudança natural ou antropogênica no habitat e a 						mudança no comportamento das espécies. "*
+​									*Existem diversos fatores que contribuem para a ocorrência dos ataques, como: o crescimento populacional humano, o tempo que passamos dentro d’água, aumento na abundância de espécies de tubarões, mudança natural ou antropogênica no habitat e a mudança no comportamento das espécies. "*
 
 ​	bioicos.org.br:	https://www.bioicos.org.br/post/ataque-de-tubarao-a-seres-humanos-um-medo-que-deve-ser-desmistificado 
 
 ​		
+
+
+
+contato: edandradef@gmail.com
+
+music: Mother's Cake  <https://open.spotify.com/artist/4tXtAqJV0KS75ndQsYh1GG?si=vfVt0_CEQV235Rq0NzciFg>
